@@ -9,7 +9,7 @@ using namespace os;
         int RES = call;                                                               \
         if (RES == -1) {                                                              \
             std::stringstream error;                                                  \
-            error << #call << " failed. Error code: 0x" << std::hex << (int)errno;    \
+            error << #call << " failed. Error code: " << strerror(errno);             \
             LogErr("os/posix", error.str());                                          \
         }                                                                             \
     } while (0)
@@ -37,7 +37,7 @@ Process os::create_proc(ProcessStartInfo& info) {
     int status = posix_spawn(&process_id, const_cast<char*>(info.cmd.data()), &spfact, NULL, argv, environ);
     if (status != 0) {
         std::stringstream error;
-        error << "Create process failed, error: 0x" << std::hex << status;
+        error << "Create process failed, error: " << strerror(errno);
         LogErr("os/posix", error.str());
         proc.pid = -1;
         return proc;
@@ -69,7 +69,7 @@ int os::pipe_write(File pipe, const void* buf, int count) {
     int res = write(fd, buf, (size_t)count);
     if (res == -1) {
         std::stringstream error;
-        error << "Pipe write failed, error: 0x" << std::hex << errno;
+        error << "Pipe write failed, error: " << strerror(errno);
         LogErr("os/posix", error.str());
     }
     return res;
@@ -80,7 +80,7 @@ int os::pipe_read(File pipe, void* buf, int count) {
     int res = read(fd, buf, (size_t)count);
     if (res == -1) {
         std::stringstream error;
-        error << "Pipe read failed, error: 0x" << std::hex << errno;
+        error << "Pipe read failed, error: " << strerror(errno);
         LogErr("os/posix", error.str());
     }
     return res;
@@ -100,4 +100,64 @@ File os::get_stdout() {
 
 void os::close_file(File f) {
     close(f.id);
+}
+
+os::SharedMemory::~SharedMemory() {
+    munmap(reinterpret_cast<char*>(memptr), memsize);
+}
+
+SharedMemory os::create_shared_mem(File& file, int size) {
+    void* memptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, file.id, 0);
+    if (memptr == MAP_FAILED) {
+        std::stringstream error;
+        error << "Creating memory map failed. Error code: " << strerror(errno);
+        LogErr("os/posix", error.str());
+    }
+    return SharedMemory(memptr, file, size);
+}
+
+int os::shared_mem_write(File mem, const void* buf, int count) {
+    SYS_CALL_AND_LOG(flock(mem.id, LOCK_EX));
+    int res = write(mem.id, buf, (size_t)count);
+    if (res == -1) {
+        std::stringstream error;
+        error << "Shared memory write failed, error: " << strerror(errno);
+        LogErr("os/posix", error.str());
+    }
+    lseek(mem.id,-count,SEEK_CUR);
+    SYS_CALL_AND_LOG(flock(mem.id, LOCK_UN));
+    return res;
+}
+
+void os::lock_file(File mem) {
+    SYS_CALL_AND_LOG(flock(mem.id, LOCK_EX));
+}
+
+void os::unlock_file(File mem) {
+    SYS_CALL_AND_LOG(flock(mem.id, LOCK_UN));
+}
+
+int os::shared_mem_read(File mem, void* buf, int count) {
+    int res = read(mem.id, buf, (size_t)count);
+    if (res == -1) {
+        std::stringstream error;
+        error << "Shared memory read failed, error: " << strerror(errno);
+        LogErr("os/posix", error.str());
+    }
+    return res;
+}
+
+os::File::File(std::string filename) {
+    id = open(filename.data(), O_CREAT | O_RDWR | O_APPEND);
+    if (id == -1) {
+        if (errno == EACCES) {
+            std::cout << "here" << std::endl;
+            id = open(filename.data(), O_RDWR | O_APPEND);
+        }
+        if (id == -1) {
+            std::stringstream error;
+            error << "File creation failed, error: " << strerror(errno);
+            LogErr("os/posix", error.str());
+        }
+    }
 }

@@ -26,6 +26,9 @@
     #include <errno.h>
     #include <signal.h>
     #include <spawn.h>
+    #include <string.h>
+    #include <sys/file.h>
+    #include <sys/mman.h>
 #endif
 
 #define all(v) v.begin(), v.end()
