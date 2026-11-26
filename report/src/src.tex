@@ -1,7 +1,6 @@
 \section{Метод решения}
-Код данной лабораторной работы был написан так, чтобы его можно было запускать как на операционных системах POSIX, так и на Windows.
-Это было сделано благодаря реализации общего интерфейса для взаимодействия с операционной системой.
-При запуске основной программы помимо родительского процесса запускаются два дочерних, все процессы связаны между собой через 3 pipe'a, с системным вводом и выводом взаимодейтсвует только родительский процесс, ввод и вывод дочерних процессов перенаправляются в pipe'ы
+Так как данная лабораторная работа по сути версией лабораторной работы 2, то был использован код из неё, дополненный функциями для file mapping'a (они реализованны только для систем POSIX). 
+При запуске основной программы помимо родительского процесса запускаются два дочерних, все процессы связаны между собой через 3 mapped file'a, с системным вводом и выводом взаимодейтсвует только родительский процесс, ввод и вывод дочерних процессов перенаправляются в mapped file'ы
 
 \section{Описание программы}
 Общий интерфейс взаимодействия с операционной системой описан в заголовочном файле src/os\_interaction/basic/os.h.
@@ -19,17 +18,28 @@ typedef ProcessHandleDummy* ProcessHandle;
 Две структуры для описания HANDLE файлов и процессов для Windows.
 
 \begin{lstlisting}[language=C++]
-struct Process {
+class Process {
+public:
     int pid = -1;
     ProcessHandle handle = nullptr;
+    Process(int pid_, ProcessHandle handle_): pid(pid_), handle(handle_) {};
+    ~Process() {
+        delete handle;
+    }
 };
 
-struct File {
+class File {
+public:
     int id = -1;
     FileHandle handle = nullptr;
+    File(int id_, FileHandle handle_): id(id_), handle(handle_) {};
+    File(std::string filename);
+    ~File() {
+        delete handle;
+    }
 };
 \end{lstlisting}
-Базовые структуры для описания процессов в Windows и POSIX.
+Базовые классы для описания процессов в Windows и POSIX.
 
 \begin{lstlisting}[language=C++]
 struct ProcessStartInfo {
@@ -44,6 +54,18 @@ struct ProcessStartInfo {
 };
 \end{lstlisting}
 Структура для описания параметров инициализации процесса (ключевые параметры - cmd, redirectStdin и redirectStdout).
+
+\begin{lstlisting}[language=C++]
+struct SharedMemory {
+public:
+    void* memptr = nullptr;
+    File file;
+    int memsize = 0;
+    SharedMemory(void* ptr, File f, int memsize_): memptr(ptr), file(f), memsize(memsize_) {};
+    ~SharedMemory();
+};
+\end{lstlisting}
+Класс для описания file mapping'a, деструктор реализуется для каждой ОС отдельно.
 
 \textit{Используемые системные вызовы}
 
@@ -64,4 +86,8 @@ POSIX:
   \item pipe - создание pipe для POSIX.
   \item write - запись в поток.
   \item read - чтение из потока.
+  \item flock - установка/удаление блокировки на файл для избежания гонок.
+  \item mmap - создание shared memory и прикрепление её к file descriptor'у.
+  \item munmap - освобождение shared memory.
+  \item lseek - перемещение указателя для чтения из файла.
 \end{itemize}

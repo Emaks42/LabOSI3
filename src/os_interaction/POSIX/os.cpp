@@ -151,7 +151,6 @@ os::File::File(std::string filename) {
     id = open(filename.data(), O_CREAT | O_RDWR | O_APPEND);
     if (id == -1) {
         if (errno == EACCES) {
-            std::cout << "here" << std::endl;
             id = open(filename.data(), O_RDWR | O_APPEND);
         }
         if (id == -1) {

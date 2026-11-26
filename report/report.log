@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.10.27)  28 OCT 2026 18:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.10.27)  26 NOV 2026 11:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1810,49 +1810,54 @@ TLF.
 )
 LaTeX Font Info:    Font shape `TS1/Tempora-TLF/m/n' will be
 (Font)              scaled to size 12.0pt on input line 5.
-)
-(./src/src.tex
+
+Overfull \hbox (18.31848pt too wide) in paragraph at lines 6--7
+[]\T2B/Tempora-TLF/m/n/12 Обеспечение об-ме-на дан-ных меж-ду про-цес-са-ми по-
+сред-ством тех-но-ло-гии ѕFile mappingї 
+ []
+
+) (./src/src.tex
 LaTeX Font Info:    Font shape `T2B/Tempora-TLF/m/it' will be
-(Font)              scaled to size 12.0pt on input line 11.
+(Font)              scaled to size 12.0pt on input line 10.
  (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 LaTeX Font Info:    Font shape `T2B/Tempora-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 12.
+(Font)              scaled to size 10.0pt on input line 11.
 LaTeX Font Info:    Trying to load font information for T2B+cmtt on input line 
-12.
-
-(/usr/share/texlive/texmf-dist/tex/latex/cyrillic/t2bcmtt.fd
+11.
+ (/usr/share/texlive/texmf-dist/tex/latex/cyrillic/t2bcmtt.fd
 File: t2bcmtt.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
 LaTeX Font Info:    Font shape `T2B/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `T2B/cmtt/m/n' tried instead on input line 13.
+(Font)              Font shape `T2B/cmtt/m/n' tried instead on input line 12.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.27 struct 
-            File { [1]) (./src/benchmark.tex [2]) (./src/thinks.tex) [3]
-(./src/literature.tex
+l.25     Process(
+                 int pid_, ProcessHandle handle_): pid(pid_), handle(handle_...
+[1] [2]) (./src/benchmark.tex) (./src/thinks.tex) [3] (./src/literature.tex
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 4.
- (../src/os_interaction/basic/defines.h)
-(../src/os_interaction/basic/os.h [4]) (../src/os_interaction/basic/logs.h
-[5]) (../src/os_interaction/POSIX/os.cpp [6]) [7]
-(../src/os_interaction/Windows/os.cpp [8] [9]) [10] (../src/main.cpp) [11]
-(../src/child1.cpp) (../src/child2.cpp)) [12] (./report.aux)
+
+(../src/os_interaction/basic/defines.h) (../src/os_interaction/basic/os.h
+[4] [5]) (../src/os_interaction/basic/logs.h)
+(../src/os_interaction/POSIX/os.cpp [6] [7] [8])
+(../src/os_interaction/Windows/os.cpp [9] [10] [11]) (../src/main.cpp [12])
+(../src/child1.cpp [13]) (../src/child2.cpp [14])) [15] (./report.aux)
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 7152ECE43E8753A370C3322F15B62529;840.
  ) 
 Here is how much of TeX's memory you used:
- 19674 strings out of 476091
- 302894 string characters out of 5794080
- 2176330 words of memory out of 5000000
- 39171 multiletter control sequences out of 15000+600000
+ 19921 strings out of 476091
+ 306207 string characters out of 5794080
+ 2179330 words of memory out of 5000000
+ 39249 multiletter control sequences out of 15000+600000
  533303 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,7n,109p,527b,2346s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,7n,109p,541b,2346s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t2b.enc}{/usr/share/texli
 ve/texmf-dist/fonts/enc/dvips/tempora/t2b-tempora.enc}{/usr/share/texlive/texmf
 -dist/fonts/enc/dvips/tempora/tmp_ac5xuc.enc}</usr/share/texlive/texmf-dist/fon
@@ -1860,10 +1865,10 @@ ts/type1/public/tempora/Tempora-Bold.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/tempora/Tempora-Italic.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/public/tempora/Tempora-Regular.pfb></usr/share/texmf/fonts/type1/public/cm-s
 uper/sfit1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on report.pdf (13 pages, 180554 bytes).
+Output written on report.pdf (16 pages, 193705 bytes).
 PDF statistics:
- 744 PDF objects out of 1000 (max. 8388607)
- 710 compressed objects within 8 object streams
- 530 named destinations out of 1000 (max. 500000)
+ 958 PDF objects out of 1000 (max. 8388607)
+ 919 compressed objects within 10 object streams
+ 699 named destinations out of 1000 (max. 500000)
  49 words of extra memory for PDF output out of 10000 (max. 10000000)
 

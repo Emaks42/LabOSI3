@@ -17,7 +17,6 @@ int main() {
             os::shared_mem_read(input, c.data(), 1);
             if (c[0] == 0 || c[0] == '\n') {
                 unlock_file(input);
-                // sleep(1);
                 break;
             }
             if (c[0] == 1) {
